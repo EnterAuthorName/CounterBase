@@ -84,7 +84,6 @@ public class GUI implements Observer {
             }
         });
         //For whatever reason only one button can have a key listener
-        //Change this to keybinding later
         buttonBack.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
