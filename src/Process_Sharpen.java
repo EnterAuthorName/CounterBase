@@ -11,11 +11,13 @@ It sharpens the image
  */
 public class Process_Sharpen extends Observable {
     public void Process(BufferedImage img) throws InterruptedException {
-        //add the image at start of process
+        //makes two image refences
         BufferedImage beforeSharpen = img;
         BufferedImage AfterSharpen = new BufferedImage(img.getColorModel(),img.copyData(null),img.isAlphaPremultiplied(), null);;
+        //adds image before changes
         notifyImageUpdate(beforeSharpen);
 
+        //starts image sharping
         Kernel kernel= new Kernel(3,3,new float[]{
                 -1, -1, -1,
                 -1, 9, -1,
@@ -23,8 +25,9 @@ public class Process_Sharpen extends Observable {
         });
         BufferedImageOp op = new ConvolveOp(kernel);
         AfterSharpen = op.filter(AfterSharpen,null);
+
         //add image at the end of the process
-        Thread.sleep(2000);
+        Thread.sleep(1000);
         notifyImageUpdate(AfterSharpen);
     }
 
