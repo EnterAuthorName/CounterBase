@@ -1,61 +1,65 @@
-import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.Observable;
 
-public class Threshold extends Observable {
-    public BufferedImage Process(BufferedImage img, int threshold) throws InterruptedException {
-        //check threshold
-        if(threshold>255 || threshold<0){
-            System.out.println("Threshold is out of range");
-            return img;
-        }
+/**
+ * For 8-bit grayscale images.
+ * Houses static methods for computing thresholds and invoking threshold operation upon a BufferedImage
+ */
+public class Threshold {
 
-        //makes two image refences
-        BufferedImage beforeSharpen = img;
-        BufferedImage AfterSharpen = new BufferedImage(img.getColorModel(),img.copyData(null),img.isAlphaPremultiplied(), null);;
-        //adds image before changes
-        notifyImageUpdate(beforeSharpen);
-
-        //starts image processing
-        //for each pixel
-        for(int row=0; row<img.getHeight();row++){
-            for(int cols=0; cols<img.getWidth();cols++){
-                Color c = new Color(img.getRGB(cols,row));
-                double Luminance = intensity(c);
-
-                //sets white or black depending on if its meets.
-                if(Luminance >= threshold){
-                    AfterSharpen.setRGB(cols, row, Color.WHITE.getRGB());
+    /**
+     * Takes a BufferedImage and a threshold value to segment the image into a binary image.
+     * @param bufImg the BufferedImage to threshold
+     * @param threshold the threshold value to split the image into binary groups
+     * @return the thresholded BufferedImage
+     */
+    public static BufferedImage process(BufferedImage bufImg, int threshold){
+        BufferedImage original = bufImg;
+        int width = original.getWidth();
+        int height = original.getHeight();
+        BufferedImage copy = new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
+        int rgb;
+        for(int y=0;y<height;y++){
+            for(int x=0;x<width;x++){
+                rgb = original.getRGB(x,y) & 0xff;
+                if(rgb <threshold){
+                    rgb = 0;
                 }
-                else {
-                    AfterSharpen.setRGB(cols, row, Color.BLACK.getRGB());
+                else{
+                    rgb = 255;
                 }
+                rgb = 0xff << 24 | rgb << 16 | rgb << 8 | rgb;
+                copy.setRGB(x,y,rgb);
             }
         }
-
-        //add image at the end of the process
-        Thread.sleep(1000);
-        notifyImageUpdate(AfterSharpen);
-
-        return AfterSharpen;
-    }
-
-    public static double intensity(Color c){
-        int r=c.getRed(),
-                g=c.getGreen(),
-                b=c.getBlue();
-        if(r==g && r==b){
-            return r;
-        }
-        return 0.299*r+0.587*g+0.114*b;
+        return copy;
     }
 
     /**
-     * Notifies any observers that the processor has updated a BufferedImage
-     * @param bufImage
+     * Auto-calculates the threshold of the histogram of the grayscale image via the Isodata Algorithm.
+     * @param histo
+     * @return -1 if the histogram is uniform or lacks a background and foreground element OR the mean
      */
-    private void notifyImageUpdate(BufferedImage bufImage){
-        setChanged();
-        notifyObservers(bufImage);
+    public static int calcThresholdIsodata(Histogram histo){
+        int size = histo.get_numLevels();
+        int mean0 = histo.get_mean();
+        //statistic notation yeeeeahhhhhhhh
+        int mean1,mew0,mew1,countLower, countUpper;
+        do{
+            countLower = Histogram.Count(histo,0,mean0);
+            countUpper = Histogram.Count(histo,mean0+1,size-1);
+            //If there's nothing in the foreground or background then we've been given something that can't be thresholded
+            if(countLower == 0 || countUpper ==0){
+                return -1;
+            }
+            mew0 = Histogram.Mean(histo,0,mean0);
+            mew1 = Histogram.Mean(histo,mean0+1,size-1);
+            mean1 = mean0;
+            mean0 = mew0 + mew1;
+            mean0 /=2;
+            //System.out.println("Threshold mean moved from " + mean1 + " to "+ mean0);
+        }
+        while (mean0 != mean1);
+        return mean0;
     }
+
 }
