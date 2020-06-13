@@ -1,7 +1,7 @@
 import java.awt.image.BufferedImage;
 
 /**
- * For 8 bit gray scale images
+ * For 8 bit gray scale images.
  * Houses one static method which is the Laplacian Filter Operation using 3x3 matrix [1,1,1][1,-8,1][1,1,1].
  */
 public class LaplacianFilter {
@@ -14,8 +14,6 @@ public class LaplacianFilter {
      */
     public static BufferedImage process(BufferedImage bufImg) throws IllegalArgumentException{
         BufferedImage original = bufImg;
-        //BufferedImage copy = new BufferedImage(original.getColorModel(),original.copyData(null),original.isAlphaPremultiplied(), null);
-
         int width = original.getWidth();
         int height = original.getHeight();
         BufferedImage copy = new BufferedImage(width-2,height-2,BufferedImage.TYPE_INT_RGB);
