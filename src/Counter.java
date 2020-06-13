@@ -26,7 +26,7 @@ public class Counter {
             filtering.addObserver(gui);
 
             //do processes
-            filtering.Process(_bufImage);
+
         }
         catch (Exception e){
             System.out.println("[EXCEPTION] An error has occurred: " + e);
