@@ -27,8 +27,6 @@ public class Counter {
             sharpen.addObserver(gui);
 
             //do processes
-            //sharpen
-            sharpen.Process(_bufImage);
 
         }
         catch (Exception e){
