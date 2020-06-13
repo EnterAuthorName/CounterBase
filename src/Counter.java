@@ -20,13 +20,13 @@ public class Counter {
 
             //Create the auxiliary classes
             Processor processor = new Processor();
-            Sharpen sharpen = new Sharpen();
+            MedianFiltering filtering = new MedianFiltering();
             //add all observers
             processor.addObserver(gui);
-            sharpen.addObserver(gui);
+            filtering.addObserver(gui);
 
             //do processes
-
+            filtering.Process(_bufImage);
         }
         catch (Exception e){
             System.out.println("[EXCEPTION] An error has occurred: " + e);
