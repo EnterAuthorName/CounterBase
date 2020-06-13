@@ -16,7 +16,7 @@ public class Processor extends Observable{
             System.out.println("[Processor] Processing Image...");
 
             //Example of processing an image
-/*            Thread.sleep(1000);
+            Thread.sleep(1000);
             System.out.println("[Processor] Changing image");
             BufferedImage _bufImage = image;
             //Always have this after some operation is complete.
@@ -34,7 +34,7 @@ public class Processor extends Observable{
                     bi.setRGB(j,i,111);
                 }
             }
-            notifyImageUpdate(bi);*/
+            notifyImageUpdate(bi);
 
         }
         catch (Exception e){

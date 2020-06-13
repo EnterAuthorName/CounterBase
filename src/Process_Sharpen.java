@@ -1,4 +1,8 @@
+import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageOp;
+import java.awt.image.ConvolveOp;
+import java.awt.image.Kernel;
 import java.util.Observable;
 
 /*
@@ -6,14 +10,22 @@ One of the image processes that can happen.
 It sharpens the image
  */
 public class Process_Sharpen extends Observable {
-    public void Process(BufferedImage img){
+    public void Process(BufferedImage img) throws InterruptedException {
         //add the image at start of process
-        notifyImageUpdate(img);
+        BufferedImage beforeSharpen = img;
+        BufferedImage AfterSharpen = new BufferedImage(img.getColorModel(),img.copyData(null),img.isAlphaPremultiplied(), null);;
+        notifyImageUpdate(beforeSharpen);
 
-        //implment the sharpening process
-
+        Kernel kernel= new Kernel(3,3,new float[]{
+                -1, -1, -1,
+                -1, 9, -1,
+                -1, -1, -1
+        });
+        BufferedImageOp op = new ConvolveOp(kernel);
+        AfterSharpen = op.filter(AfterSharpen,null);
         //add image at the end of the process
-        notifyImageUpdate(img);
+        Thread.sleep(2000);
+        notifyImageUpdate(AfterSharpen);
     }
 
     /**
