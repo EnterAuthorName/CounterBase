@@ -1,7 +1,6 @@
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
-//test pushing to see if i have control
 /**
  * Counts the number of cells in an image
  */
@@ -15,13 +14,20 @@ public class Counter {
             }
             File input = new File(args[0]);
             BufferedImage _bufImage = ImageIO.read(input);
+
+            //setup Gui
+            GUI gui = new GUI();
+
             //Create the auxiliary classes
             Processor processor = new Processor();
-            GUI gui = new GUI();
-            //Add GUI as observer to processor
+            Process_Sharpen sharpen = new Process_Sharpen();
+            //add all observers
             processor.addObserver(gui);
-            //Process the image
-            processor.Process(_bufImage);
+            sharpen.addObserver(gui);
+
+            //do processes
+            //sharpen
+            sharpen.Process(_bufImage);
         }
         catch (Exception e){
             System.out.println("[EXCEPTION] An error has occurred: " + e);
