@@ -4,6 +4,8 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -77,8 +79,32 @@ public class GUI implements Observer {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("[Button] 'Back' has been pressed");
+                //System.out.println("[Button] 'Back' has been pressed");
                 updateGallery(0);
+            }
+        });
+        //For whatever reason only one button can have a key listener
+        buttonBack.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_LEFT:
+                        updateGallery(0);
+                        break;
+                    case KeyEvent.VK_RIGHT:
+                        updateGallery(1);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
             }
         });
 
@@ -96,7 +122,7 @@ public class GUI implements Observer {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("[Button] 'Next' has been pressed");
+                ////System.out.println("[Button] 'Next' has been pressed");
                 updateGallery(1);
             }
         });
@@ -123,7 +149,7 @@ public class GUI implements Observer {
                 String name = fc.getSelectedFile().getName();
                 String dir = fc.getCurrentDirectory().toString();
                 Image img = _gallery.get(_galleryIndex).getImage();
-                BufferedImage bufImg = new BufferedImage(img.getWidth(null),img.getHeight(null),BufferedImage.TYPE_INT_ARGB);
+                BufferedImage bufImg = new BufferedImage(img.getWidth(null),img.getHeight(null),BufferedImage.TYPE_INT_RGB);
                 Graphics2D grap = bufImg.createGraphics();
                 grap.drawImage(img,0,0,null);
                 grap.dispose();
@@ -168,7 +194,7 @@ public class GUI implements Observer {
                     _galleryIndex++;
                 }
             }
-            System.out.println("[Gallery] Changed to index " + _galleryIndex);
+            //System.out.println("[Gallery] Changed to index " + _galleryIndex);
             _labelImage.setIcon(_gallery.get(_galleryIndex));
             _counter.setText(_galleryIndex + "/" +_gallerySize);
             _frame.invalidate();
@@ -181,7 +207,7 @@ public class GUI implements Observer {
      * Currently assumed the only updates are BufferedImages. This will most definitely cause problems if it isn't a BufferedImage.
      */
     public void update(Observable o, Object arg) {
-        System.out.println("[GUI] " + o.toString() + " has updated");
+        //System.out.println("[GUI] " + o.toString() + " has updated");
         _gallery.add(new ImageIcon((BufferedImage)arg));
         _gallerySize = _gallery.size()-1;
         updateGallery(2);
