@@ -18,17 +18,17 @@ public class Threshold extends Observable {
 
         //starts image processing
         //for each pixel
-        for(int row=0; row<img.getWidth();row++){
-            for(int cols=0; cols<img.getHeight();cols++){
+        for(int row=0; row<img.getHeight();row++){
+            for(int cols=0; cols<img.getWidth();cols++){
                 Color c = new Color(img.getRGB(cols,row));
                 double Luminance = intensity(c);
 
                 //sets white or black depending on if its meets.
                 if(Luminance >= threshold){
-                    AfterSharpen.setRGB(row, cols, Color.WHITE.getRGB());
+                    AfterSharpen.setRGB(cols, row, Color.WHITE.getRGB());
                 }
                 else {
-                    AfterSharpen.setRGB(row, cols, Color.BLACK.getRGB());
+                    AfterSharpen.setRGB(cols, row, Color.BLACK.getRGB());
                 }
             }
         }
