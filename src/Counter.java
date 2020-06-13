@@ -1,5 +1,4 @@
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 /**
@@ -21,7 +20,7 @@ public class Counter {
 
             //Create the auxiliary classes
             Processor processor = new Processor();
-            Process_Sharpen sharpen = new Process_Sharpen();
+            Sharpen sharpen = new Sharpen();
             //add all observers
             processor.addObserver(gui);
             sharpen.addObserver(gui);

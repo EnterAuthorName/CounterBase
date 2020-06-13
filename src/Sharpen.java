@@ -9,8 +9,8 @@ import java.util.Observable;
 One of the image processes that can happen.
 It sharpens the image
  */
-public class Process_Sharpen extends Observable {
-    public void Process(BufferedImage img) throws InterruptedException {
+public class Sharpen extends Observable {
+    public BufferedImage Process(BufferedImage img) throws InterruptedException {
         //makes two image refences
         BufferedImage beforeSharpen = img;
         BufferedImage AfterSharpen = new BufferedImage(img.getColorModel(),img.copyData(null),img.isAlphaPremultiplied(), null);;
@@ -29,6 +29,8 @@ public class Process_Sharpen extends Observable {
         //add image at the end of the process
         Thread.sleep(1000);
         notifyImageUpdate(AfterSharpen);
+
+        return AfterSharpen;
     }
 
     /**
