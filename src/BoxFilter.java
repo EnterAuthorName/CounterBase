@@ -7,16 +7,18 @@ import java.awt.image.BufferedImage;
 public class BoxFilter {
 
     /**
-     * Takes a BufferedImage and applies the box filter on it
+     * Takes a BufferedImage and applies the box filter, ignoring the borders, on it
      * @param bufImg
+     * @throws IllegalArgumentException if the image has any dimension <3
      * @return A blurred BufferedImage
      */
-    public static BufferedImage process(BufferedImage bufImg) {
+    public static BufferedImage process(BufferedImage bufImg) throws IllegalArgumentException{
         BufferedImage original = bufImg;
-        BufferedImage copy = new BufferedImage(original.getColorModel(),original.copyData(null),original.isAlphaPremultiplied(), null);
 
-        int width = copy.getWidth();
-        int height = copy.getHeight();
+        int width = original.getWidth();
+        int height = original.getHeight();
+        BufferedImage copy = new BufferedImage(width-2,height-2,BufferedImage.TYPE_INT_RGB);
+
         //The rgb for top, middle, bottom, going left to right in numbering for a 3x3 region
         int t0,t1,t2,m0,m1,m2,b0,b1,b2;
 
@@ -44,7 +46,7 @@ public class BoxFilter {
                 filtered = 0xff << 24 | filtered << 16 | filtered << 8| filtered;
                 //System.out.println("[Box] Operation on " + x + "," + y + " yields RGB " + filtered);
                 //System.out.println("[Box] Operation on " + x + "," + y + " filtered to RGB " + filtered);
-                copy.setRGB(x,y,filtered);
+                copy.setRGB(x-1,y-1,filtered);
             }
         }
         return copy;
