@@ -1,7 +1,7 @@
 import java.awt.image.BufferedImage;
 
 /**
- * For 8-bit grayscale images.
+ * Only for 8-bit grayscale images.
  * Houses static methods for computing thresholds and invoking threshold operation upon a BufferedImage
  */
 public class Threshold {

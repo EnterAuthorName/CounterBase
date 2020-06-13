@@ -11,17 +11,23 @@ public class Histogram {
     //numLevels is the number of intensity levels of the histogram
     private int _mean, _count, _numLevels;
 
+    /**
+     * Initialises the histogram based on the BufferedImage
+     * @param bufImg
+     */
     public Histogram(BufferedImage bufImg){
         BufferedImage original = bufImg;
 
         _bins = new int[256];
         _numLevels = 256;
+        //Sets all bins to 0
         for(int i=0;i<256;i++){
             _bins[i]=0;
         }
         int width = original.getWidth();
         int height = original.getHeight();
         int rgb;
+        //Updates the frequency of the bins as we go through the image getting the rgb value
         for(int y=0;y<height;y++){
             for(int x=0;x<width;x++){
                 rgb = original.getRGB(x,y) & 0xff;
@@ -31,12 +37,13 @@ public class Histogram {
 
         _count = 0;
         int sum = 0;
+        //Gets the count and sum of the histogram then calculates the mean
         for(int i=0;i<256;i++){
             _count += _bins[i];
             sum += _bins[i] * i;
         }
         _mean = sum / _count;
-        System.out.println("Mean is " + _mean + "\n" + "n=" + _count);
+        //System.out.println("Mean is " + _mean + "\n" + "n=" + _count);
 
     }
 
