@@ -29,7 +29,7 @@ public class Counter {
             //do processes
             //sharpen
             sharpen.Process(_bufImage);
-            processor.Process(_bufImage);
+
         }
         catch (Exception e){
             System.out.println("[EXCEPTION] An error has occurred: " + e);
