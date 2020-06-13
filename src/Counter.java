@@ -1,7 +1,7 @@
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
-
+//test pushing to see if i have control
 /**
  * Counts the number of cells in an image
  */
