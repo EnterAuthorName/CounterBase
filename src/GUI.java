@@ -112,6 +112,9 @@ public class GUI implements Observer {
      */
     class SaveAs implements ActionListener {
         public void actionPerformed(ActionEvent e) {
+            if(_gallery.size() == 0){
+                return;
+            }
             JFileChooser fc = new JFileChooser();
             fc.setCurrentDirectory(_currentDir);
             // Demonstrate "Save" dialog:
