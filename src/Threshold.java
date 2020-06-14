@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 public class Threshold {
 
     /**
-     * Takes a BufferedImage and a threshold value to segment the image into a binary image.
+     * Takes a BufferedImage and a threshold value to segment the image into a binary image of 0 and 255.
      * @param bufImg the BufferedImage to threshold
      * @param threshold the threshold value to split the image into binary groups
      * @return the thresholded BufferedImage
@@ -26,6 +26,34 @@ public class Threshold {
                 }
                 else{
                     rgb = 255;
+                }
+                rgb = 0xff << 24 | rgb << 16 | rgb << 8 | rgb;
+                copy.setRGB(x,y,rgb);
+            }
+        }
+        return copy;
+    }
+
+    /**
+     * Takes a BufferedImage and a threshold value to segment the image into a binary image of 0 and 1.
+     * @param bufImg the BufferedImage to threshold
+     * @param threshold the threshold value to split the image into binary groups
+     * @return a binary thresholded image
+     */
+    public static BufferedImage processTrueBinary(BufferedImage bufImg, int threshold){
+        BufferedImage original = bufImg;
+        int width = original.getWidth();
+        int height = original.getHeight();
+        BufferedImage copy = new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
+        int rgb;
+        for(int y=0;y<height;y++){
+            for(int x=0;x<width;x++){
+                rgb = original.getRGB(x,y) & 0xff;
+                if(rgb <threshold){
+                    rgb = 0;
+                }
+                else{
+                    rgb = 1;
                 }
                 rgb = 0xff << 24 | rgb << 16 | rgb << 8 | rgb;
                 copy.setRGB(x,y,rgb);
