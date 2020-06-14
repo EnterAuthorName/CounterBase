@@ -1,7 +1,7 @@
 import java.awt.image.BufferedImage;
 
 /**
- * For 8 bit gray scale images
+ * For 8 bit gray scale images.
  * Houses the static method for Box Blur Filter operation using the 3x3 matrix [1,1,1][1,1,1][1,1,1]
  */
 public class BoxFilter {
