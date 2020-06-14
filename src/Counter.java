@@ -20,10 +20,8 @@ public class Counter {
 
             //Create the auxiliary classes
             Processor processor = new Processor();
-            MedianFiltering filtering = new MedianFiltering();
             //add all observers
             processor.addObserver(gui);
-            filtering.addObserver(gui);
 
             //do processes
 
